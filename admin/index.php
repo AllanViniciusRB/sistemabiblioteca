@@ -9,7 +9,7 @@
 
     <style>
         :root{
-            --bs-primary-rgb:52, 229, 235;
+            --bs-primary-rgb:247, 148, 30;
             --bs-secondary-rgb:0,74,141;
 
         }
@@ -37,7 +37,6 @@
             </div>
         </nav>
     </header>
-
     <main class="container mt-3 mb-3 text-center">
         <h1>Área Administrativa</h1>
     </main>

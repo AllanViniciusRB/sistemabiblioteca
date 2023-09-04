@@ -117,7 +117,7 @@ class Aluno{
    public function editarAluno($id, $dados){
 
       try{
-         $sql= ("UPDATE {$this->table} usuarios SET nome = :nome, :cpf, :email, :telefone, :celular, :data_nascimento 
+         $sql= ("UPDATE {$this->table} usuarios SET nome = :nome,  cpf = :cpf,email = :email,telefone = :telefone,celular = :celular, data_nascimento = :data_nascimento 
          WHERE id_usuario = :$id");
 
          $stmt = $this->db->prepare($sql);

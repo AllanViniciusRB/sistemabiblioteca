@@ -1,9 +1,9 @@
 <?php
 
-class Usuario{
+class Aluno{
 
    protected $db;
-   protected $table = "usuarios";
+   protected $table = "alunos";
 
    public function __construct()
    {
@@ -15,7 +15,7 @@ class Usuario{
    * @param int $id
    * @return Usuario
    */
-   public function buscar($id, $dados){
+   public function buscarAluno($id, $dados){
 
       
       try{
@@ -30,19 +30,23 @@ class Usuario{
          if($usuario){
             echo "ID: ". $dados['id_usuario']. "<br>";
             echo "Nome: ". $dados['nome']. "<br>";
-            echo "Email: ". $dados['email']. "<br>";
+            echo "cpf: ". $dados['email']. "<br>";
+            echo "email: ". $dados['email']. "<br>";
+            echo "telefone". $dados['telefone'];
+            echo "celular". $dados['celular'];
+            echo "data_nascimento". $dados['data_nascimento'];
             
          }
       }catch (PDOException $e){
 
-      echo "Erro na busca dos dados" .$e->getMessage();
+      echo "Erro na busca do Aluno" .$e->getMessage();
    }
 }
 
    /**
     *Listar todos os registros da tabela do usuário
     */
-   public function listar($id, $dados){
+   public function listarAluno($id, $dados){
       try{
       $sql = "SELECT * FROM {$this->table} WHERE id_usuario = :id;";
       $stmt = $this->db->prepare($sql);
@@ -53,11 +57,16 @@ class Usuario{
       if($usuario){
          echo "ID: ". $dados['id_usuario']. "<br>";
          echo "Nome: ". $dados['nome']. "<br>";
-         echo "Email: ". $dados['email']. "<br>";
+         echo "cpf: ". $dados['email']. "<br>";
+         echo "email: ". $dados['email']. "<br>";
+         echo "telefone". $dados['telefone'];
+         echo "celular". $dados['celular'];
+         echo "data_nascimento". $dados['data_nascimento'];
+
          
       }
       }catch(PDOException $e){
-         echo "Erro na listagem dos dados" .$e->getMessage();
+         echo "Erro na listagem do Aluno" .$e->getMessage();
       }
    }
 
@@ -68,11 +77,11 @@ class Usuario{
     *@return bool
     */
 
-   public function cadastrar($dados){
+   public function cadastrarAluno($dados){
 
       try{
-         $sql = "INSERT INTO {$this->table}(nome, email, senha, perfil)
-         VALUES(:nome, :email, :senha, :perfil)";
+         $sql = "INSERT INTO {$this->table}(nome, cpf, email, telefone, celular, data_nascimento)
+         VALUES(:nome, :cpf, :email, :telefone, :celular, :data_nascimento)";
 
 
          $stmt = $this->db->prepare($sql);
@@ -82,21 +91,22 @@ class Usuario{
       $stmt = $this->db->prepare($sql);
       
       $stmt ->bindParam('nome', $dados['nome']);
+      $stmt ->bindParam('cpf', $dados['cpf']);
       $stmt ->bindParam('email', $dados['email']);
-      $stmt ->bindParam('senha', $dados['senha']);
-      $stmt ->bindParam('perfil', $dados['perfil']);
+      $stmt ->bindParam('telefone', $dados['telefone']);
+      $stmt ->bindParam('celular', $dados['celular']);
+      $stmt ->bindParam('data_nascimento', $dados ['data_nascimento']);
 
       try{
          $stmt->execute();
          echo "Execução bem sucedida!";
 
       }catch(PDOException $e){
-         echo "Erro na inserção dos dados" .$e->getMessage();
+         echo "Erro na inserção do aluno" .$e->getMessage();
       }
      
    
    }
-
    /**
     *Editar Usuários.
     *
@@ -104,10 +114,10 @@ class Usuario{
     *@param array $dados
     *@return bool
     */
-   public function editar($id, $dados){
+   public function editarAluno($id, $dados){
 
       try{
-         $sql= ("UPDATE {$this->table} usuarios SET nome = :nome, email = :email, senha = :senha 
+         $sql= ("UPDATE {$this->table} usuarios SET nome = :nome, :cpf, :email, :telefone, :celular, :data_nascimento 
          WHERE id_usuario = :$id");
 
          $stmt = $this->db->prepare($sql);
@@ -117,9 +127,11 @@ class Usuario{
       }
 
       $stmt ->bindParam('nome', $dados['nome']);
+      $stmt ->bindParam('cpf', $dados['cpf']);
       $stmt ->bindParam('email', $dados['email']);
-      $stmt ->bindParam('senha', $dados['senha']);
-      $stmt ->bindParam('perfil', $dados['perfil']);
+      $stmt ->bindParam('telefone', $dados['telefone']);
+      $stmt ->bindParam('celular', $dados['celular']);
+      $stmt ->bindParam('data_nascimento', $dados ['data_nascimento']);
 
    try{
 
@@ -147,7 +159,7 @@ class Usuario{
          $stmt->execute();
       }
       catch(PDOException $e){
-         echo "Erro na preparação da consulta:" . $e->getMessage();
+         echo "Erro na preparação da consulta do aluno:" . $e->getMessage();
       }
       
       

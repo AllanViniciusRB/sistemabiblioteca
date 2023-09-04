@@ -15,15 +15,51 @@ class Usuario{
    * @param int $id
    * @return Usuario
    */
-   public function buscar($id){
+   public function buscar($id, $dados){
 
+      
+      try{
+         //Montagem Temporária.
+         $sql = "SELECT * FROM {$this->table} WHERE id_usuario = :id;";
+         $stmt = $this->db->prepare($sql);
+         $usuario=$stmt->fetch(PDO::FETCH_ASSOC);
+         $stmt->execute();
+         $usuarioID= "id_usuario";
+         $stmt->blindParam(':id', $id, PDO::PARAM_INT);
+         
+         if($usuario){
+            echo "ID: ". $dados['id_usuario']. "<br>";
+            echo "Nome: ". $dados['nome']. "<br>";
+            echo "Email: ". $dados['email']. "<br>";
+            
+         }
+      }catch (PDOException $e){
+
+      echo "Erro na busca dos dados" .$e->getMessage();
    }
+}
 
    /**
     *Listar todos os registros da tabela do usuário
     */
-   public function listar(){
+   public function listar($id, $dados){
+      try{
+      $sql = "SELECT * FROM {$this->table} WHERE id_usuario = :id;";
+      $stmt = $this->db->prepare($sql);
+      $usuario=$stmt->fetch(PDO::FETCH_ASSOC);
+      $stmt->execute();
+      $stmt->BlindParam(':id', $id, PDO::PARAM_INT);
 
+      if($usuario){
+         echo "ID: ". $dados['id_usuario']. "<br>";
+         echo "Nome: ". $dados['nome']. "<br>";
+         echo "Email: ". $dados['email']. "<br>";
+         
+      }
+
+      }catch(PDOException $e){
+         echo "Erro na busca dos dados" .$e->getMessage();
+      }
    }
 
    /**
@@ -100,6 +136,22 @@ class Usuario{
    //Excluir dados do usuário.
    public function excluir($id){
 
+      
+      try{
+
+         //Montagem e preparação do SQL
+         $sql= "DELETE FROM {$this->table} WHERE id = id_usuario";
+         $stmt= $this->db->prepare($sql);
+
+         //Passagem de parametros
+         $stmt->blindParam(':id', $id, PDO::PARAM_INT);
+         $stmt->execute();
+      }
+      catch(PDOException $e){
+         echo "Erro na preparação da consulta:" . $e->getMessage();
+      }
+      
+      
    }
 
 }

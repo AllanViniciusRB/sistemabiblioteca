@@ -1,13 +1,13 @@
 <?php
-
-class Aluno{
+require_once $_SERVER ['DOCUMENT_ROOT'] . "/database/DBConexao.php";
+class Livro{
 
    protected $db;
    protected $table = "livros";
 
    public function __construct()
    {
-        $this->db= DBConexão::getConexao();
+        $this->db= DBConexao::getConexao();
    }
 
    /**
@@ -19,55 +19,33 @@ class Aluno{
 
       
       try{
-         //Montagem Temporária.
-         $sql = "SELECT * FROM {$this->table} WHERE id_usuario = :id;";
-         $stmt = $this->db->prepare($sql);
-         $usuario=$stmt->fetch(PDO::FETCH_ASSOC);
+         $query = "SELECT * FROM {$this->table} WHERE titulo = :titulo";
+         $stmt = $this->db->prepare($query);  
+         $stmt->bindParam(":id", $id, PDO::PARAM_INT); 
          $stmt->execute();
-         $usuarioID= "id_usuario";
-         $stmt->blindParam(':id', $id, PDO::PARAM_INT);
-         
-         if($usuario){
-            echo "ID_livro: ". $dados['id_livro']. "<br>";
-            echo "Titulo: ". $dados['titulo']. "<br>";
-            echo "Autor do Livro: ". $dados['autor']. "<br>";
-            echo "Numero de Páginas: ". $dados['numero_pagina']. "<br>";
-            echo "Valor: ". $dados['preco'];
-            echo "Ano de publicação". $dados['ano_publicacao'];
-            echo "ISBN: ". $dados['isbn'];
-            
-         }
-      }catch (PDOException $e){
+        
+         return $stmt->fetch(PDO::FETCH_OBJ); 
 
-      echo "Erro na busca do Livro" .$e->getMessage();
-   }
+     }catch(PDOException $e ){
+         echo 'Erro na inserção: ' . $e->getMessage(); 
+         return null; 
+     }
 }
 
    /**
     *Listar todos os registros da tabela do usuário
     */
-   public function listarLivro($id, $dados){
+   public function listarLivro(){
       try{
-      $sql = "SELECT * FROM {$this->table} WHERE id_usuario = :id;";
-      $stmt = $this->db->prepare($sql);
-      $usuario=$stmt->fetch(PDO::FETCH_ASSOC);
-      $stmt->execute();
-      $stmt->BlindParam(':id', $id, PDO::PARAM_INT);
-
-      if($usuario){
-         echo "ID_livro: ". $dados['id_livro']. "<br>";
-            echo "Titulo: ". $dados['titulo']. "<br>";
-            echo "Autor do Livro: ". $dados['autor']. "<br>";
-            echo "Numero de Páginas: ". $dados['numero_pagina']. "<br>";
-            echo "Valor: ". $dados['preco'];
-            echo "Ano de publicação". $dados['ano_publicacao'];
-            echo "ISBN: ". $dados['isbn'];
-
          
-      }
-      }catch(PDOException $e){
-         echo "Erro na listagem do Livro" .$e->getMessage();
-      }
+         $query = "SELECT * FROM {$this->table}"; 
+         $stmt = $this->db->query($query); 
+         return $stmt->fetchAll(PDO::FETCH_OBJ);
+         
+     }catch(PDOException $e){
+         echo 'Erro na inserção: ' . $e->getMessage(); 
+         return null; 
+     }
    }
 
    /**
@@ -82,30 +60,20 @@ class Aluno{
       try{
          $sql = "INSERT INTO {$this->table}(titulo, autor, numero_pagina, preco, ano_publicacao, isbn)
          VALUES(:titulo, :autor, :numero_pagina, :preco, :ano_publicacao, :isbn)";
-
-
          $stmt = $this->db->prepare($sql);
+
+         $stmt ->bindParam('titulo', $dados['titulo']);
+         $stmt ->bindParam('autor', $dados['autor']);
+         $stmt ->bindParam('numero_pagina', $dados['numero_pagina']);
+         $stmt ->bindParam('preco', $dados['preco']);
+         $stmt ->bindParam('ano_publicacao', $dados['ano_publicacao']);
+         $stmt ->bindParam('isbn', $dados ['isbn']);
+         return true;
+
       }catch(PDOException $e){
          echo "Erro na preparação da consulta" .$e->getMessage();
+         return false;
       }
-      $stmt = $this->db->prepare($sql);
-      
-      $stmt ->bindParam('titulo', $dados['titulo']);
-      $stmt ->bindParam('autor', $dados['autor']);
-      $stmt ->bindParam('numero_pagina', $dados['numero_pagina']);
-      $stmt ->bindParam('preco', $dados['preco']);
-      $stmt ->bindParam('ano_publicacao', $dados['ano_publicacao']);
-      $stmt ->bindParam('isbn', $dados ['isbn']);
-
-      try{
-         $stmt->execute();
-         echo "Execução bem sucedida!";
-
-      }catch(PDOException $e){
-         echo "Erro na inserção do aluno" .$e->getMessage();
-      }
-     
-   
    }
    /**
     *Editar Usuários.
@@ -120,29 +88,19 @@ class Aluno{
          $sql= ("UPDATE {$this->table} livros SET titulo = :titulo, autor = :autor, numero_pagina = :numero_pagina, preco = :preco, ano_publicacao = :ano_publicacao, isbn = :isbn;
          WHERE isbn = :$isbn");
 
-         $stmt = $this->db->prepare($sql);
-
-      }catch(PDOException $e){
-         echo "Erro na atualização dos dados: " . $e->getMessage();
-      }
-
+      $stmt = $this->db->prepare($sql);
       $stmt ->bindParam('titulo', $dados['titulo']);
       $stmt ->bindParam('autor', $dados['autor']);
       $stmt ->bindParam('numero_pagina', $dados['numero_pagina']);
       $stmt ->bindParam('preco', $dados['preco']);
       $stmt ->bindParam('ano_publicacao', $dados['ano_publicacao']);
       $stmt ->bindParam('isbn', $dados ['isbn']);
-
-   try{
-
-      $stmt->execute();
-
-      echo "Seus dados foram atualizados com Sucesso!!";
-
-  } catch (PDOException $e) {
-
-      echo "erro na inserção: " . $e->getMessage();
-  }    
+      return true; 
+      
+      }catch(PDOException $e){
+         echo "Erro na atualização dos dados: " . $e->getMessage();
+      return false;
+      }   
    }
    //Excluir dados do usuário.
    public function excluir($id, $isbn){

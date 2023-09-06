@@ -1,5 +1,5 @@
 <?php
-
+require_once $_SERVER ['DOCUMENT_ROOT'] . "/database/DBConexao.php";
 class Aluno{
 
    protected $db;
@@ -7,7 +7,7 @@ class Aluno{
 
    public function __construct()
    {
-        $this->db= DBConexão::getConexao();
+        $this->db= DBConexao::getConexao();
    }
 
    /**
@@ -19,57 +19,33 @@ class Aluno{
 
       
       try{
-         //Montagem Temporária.
-         $sql = "SELECT * FROM {$this->table} WHERE id_usuario = :id;";
-         $stmt = $this->db->prepare($sql);
-         $usuario=$stmt->fetch(PDO::FETCH_ASSOC);
+         $query = "SELECT * FROM {$this->table} WHERE id_aluno = :id";
+         $stmt = $this->db->prepare($query);  
+         $stmt->bindParam(":id", $id, PDO::PARAM_INT); 
          $stmt->execute();
-         $usuarioID= "id_usuario";
-         $stmt->blindParam(':id', $id, PDO::PARAM_INT);
-         
-         if($usuario){
-            echo "ID: ". $dados['id_usuario']. "<br>";
-            echo "Nome: ". $dados['nome']. "<br>";
-            echo "cpf: ". $dados['email']. "<br>";
-            echo "email: ". $dados['email']. "<br>";
-            echo "telefone". $dados['telefone'];
-            echo "celular". $dados['celular'];
-            echo "data_nascimento". $dados['data_nascimento'];
-            
-         }
-      }catch (PDOException $e){
+        
+         return $stmt->fetch(PDO::FETCH_OBJ); 
 
-      echo "Erro na busca do Aluno" .$e->getMessage();
-   }
+     }catch(PDOException $e ){
+         echo 'Erro na inserção: ' . $e->getMessage(); 
+         return null; 
+     }
 }
 
    /**
     *Listar todos os registros da tabela do usuário
     */
-   public function listarAluno($id, $dados){
+   public function listarAluno(){
       try{
-      $sql = "SELECT * FROM {$this->table} WHERE id_usuario = :id;";
-      $stmt = $this->db->prepare($sql);
-      $usuario=$stmt->fetch(PDO::FETCH_ASSOC);
-      $stmt->execute();
-      $stmt->BlindParam(':id', $id, PDO::PARAM_INT);
-
-      if($usuario){
-         echo "ID: ". $dados['id_usuario']. "<br>";
-         echo "Nome: ". $dados['nome']. "<br>";
-         echo "cpf: ". $dados['email']. "<br>";
-         echo "email: ". $dados['email']. "<br>";
-         echo "telefone". $dados['telefone'];
-         echo "celular". $dados['celular'];
-         echo "data_nascimento". $dados['data_nascimento'];
-
+         $query = "SELECT * FROM {$this->table}"; 
+         $stmt = $this->db->query($query); 
+         return $stmt->fetchAll(PDO::FETCH_OBJ);
          
-      }
-      }catch(PDOException $e){
-         echo "Erro na listagem do Aluno" .$e->getMessage();
-      }
+     }catch(PDOException $e){
+         echo 'Erro na inserção: ' . $e->getMessage(); 
+         return null; 
+     }
    }
-
    /**
     *Cadastrar Usuários.
     *
@@ -82,30 +58,21 @@ class Aluno{
       try{
          $sql = "INSERT INTO {$this->table}(nome, cpf, email, telefone, celular, data_nascimento)
          VALUES(:nome, :cpf, :email, :telefone, :celular, :data_nascimento)";
-
-
          $stmt = $this->db->prepare($sql);
+
+         $stmt ->bindParam('nome', $dados['nome']);
+         $stmt ->bindParam('cpf', $dados['cpf']);
+         $stmt ->bindParam('email', $dados['email']);
+         $stmt ->bindParam('telefone', $dados['telefone']);
+         $stmt ->bindParam('celular', $dados['celular']);
+         $stmt ->bindParam('data_nascimento', $dados ['data_nascimento']);
+         $stmt->execute();
+         return true;
+
       }catch(PDOException $e){
          echo "Erro na preparação da consulta" .$e->getMessage();
+         return false;
       }
-      $stmt = $this->db->prepare($sql);
-      
-      $stmt ->bindParam('nome', $dados['nome']);
-      $stmt ->bindParam('cpf', $dados['cpf']);
-      $stmt ->bindParam('email', $dados['email']);
-      $stmt ->bindParam('telefone', $dados['telefone']);
-      $stmt ->bindParam('celular', $dados['celular']);
-      $stmt ->bindParam('data_nascimento', $dados ['data_nascimento']);
-
-      try{
-         $stmt->execute();
-         echo "Execução bem sucedida!";
-
-      }catch(PDOException $e){
-         echo "Erro na inserção do aluno" .$e->getMessage();
-      }
-     
-   
    }
    /**
     *Editar Usuários.
@@ -119,30 +86,21 @@ class Aluno{
       try{
          $sql= ("UPDATE {$this->table} usuarios SET nome = :nome,  cpf = :cpf,email = :email,telefone = :telefone,celular = :celular, data_nascimento = :data_nascimento 
          WHERE id_usuario = :$id");
-
          $stmt = $this->db->prepare($sql);
+
+         $stmt ->bindParam('nome', $dados['nome']);
+         $stmt ->bindParam('cpf', $dados['cpf']);
+         $stmt ->bindParam('email', $dados['email']);
+         $stmt ->bindParam('telefone', $dados['telefone']);
+         $stmt ->bindParam('celular', $dados['celular']);
+         $stmt ->bindParam('data_nascimento', $dados ['data_nascimento']);
+         $stmt->execute();
+         return true;
 
       }catch(PDOException $e){
          echo "Erro na atualização dos dados: " . $e->getMessage();
-      }
-
-      $stmt ->bindParam('nome', $dados['nome']);
-      $stmt ->bindParam('cpf', $dados['cpf']);
-      $stmt ->bindParam('email', $dados['email']);
-      $stmt ->bindParam('telefone', $dados['telefone']);
-      $stmt ->bindParam('celular', $dados['celular']);
-      $stmt ->bindParam('data_nascimento', $dados ['data_nascimento']);
-
-   try{
-
-      $stmt->execute();
-
-      echo "Seus dados foram atualizados com Sucesso!!";
-
-  } catch (PDOException $e) {
-
-      echo "erro na inserção: " . $e->getMessage();
-  }    
+         return false;
+      }   
    }
    //Excluir dados do usuário.
    public function excluir($id){

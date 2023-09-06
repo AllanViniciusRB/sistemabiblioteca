@@ -1,6 +1,6 @@
 <?php
 
-    class DBConexão{
+    class DBConexao{
         
         //Configurações do banco de dados.
         private $host= "localhost";
@@ -34,7 +34,7 @@
 
         public static function getConexao(){
             if(!self::$instancia){
-                self::$instancia = new DBConexão();
+                self::$instancia = new DBConexao();
             }
             return self::$instancia->conx;
         }

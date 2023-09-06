@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . "/models/Usuario.php";
 
 Class UsuarioController{
 
@@ -8,5 +9,8 @@ Class UsuarioController{
         $this->usuarioModel = new Usuario();
     }
 
-    
+    public function listarUsuarios(){
+        return $this->usuarioModel->listar();
+    }
+
 }

@@ -5,3 +5,4 @@
         <h1>Área Administrativa</h1>
     </main>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/rodape.php";?> 
+

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once $_SERVER ['DOCUMENT_ROOT'] . "/database/DBConexao.php";
 class Usuario
 {
@@ -65,11 +66,16 @@ class Usuario
             $stmt->bindParam(':perfil', $dados['perfil']); 
             
             $stmt->execute(); 
+            $_SESSION['sucesso'] = "Cadastro realizado com sucesso";
+            
             return true;
 
         }catch(PDOException $e){
             echo 'Erro ao cadastrar: ' . $e->getMessage(); 
-            return false;
+
+            $_SESSION['erro'] = "Erro ao cadastrar usuario";
+
+            return false;   
         }
     }
 

@@ -4,7 +4,9 @@
 ?>
 
     <main class="container mt-3 mb-3">
-        <h1>Lista de Alunos</h1>
+        <h1>Lista de Alunos
+        <a href="cadastrar.php" class="btn btn-primary float-end">Cadastrar</a>
+        </h1>
 
         <table class="table table-striped">
             <thead>

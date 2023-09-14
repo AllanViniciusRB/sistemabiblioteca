@@ -113,7 +113,7 @@ class Aluno{
          $stmt= $this->db->prepare($sql);
 
          //Passagem de parametros
-         $stmt->blindParam(':id', $id, PDO::PARAM_INT);
+         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
          $stmt->execute();
       }
       catch(PDOException $e){

@@ -41,7 +41,7 @@
             <h2>Explorando Mundos Literários</h2>
             <p>Descubra os tesouros de conhecimentos e Imaginação em nossa Biblioteca</p>
 
-            <div id="formProcura">
+            <div id="formProcurar">
                 <form action="buscar.php" method="get">
                     <i class="fa-solid fa-magnifying-glass"></i>
 

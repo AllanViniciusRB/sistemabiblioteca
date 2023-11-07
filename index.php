@@ -56,7 +56,7 @@
     <main class="container">
         <section id="livrosPopulares">
 
-            <div class="blocoTitulo">
+            <div class="bloco-titulo">
 
                 <div class="titulo">
 

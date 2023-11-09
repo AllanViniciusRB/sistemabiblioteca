@@ -25,6 +25,7 @@ body{
     justify-content: space-between;
     align-items: center;
 }
+
 #menu ul{
     display: flex;
     list-style: none;
@@ -111,10 +112,40 @@ body{
 .lista-livros {
     display: flex;
     flex-wrap: wrap;
+    gap: 30px;
 
 }
 .lista-livros img{
     width: 100%;
     height: auto;
     border: 5px;
+}
+.card-livro{
+    flex-grow: 1;
+    width: calc(25% - 30px);
+    position: relative;
+}
+.legenda{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #d9c505;
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+.black-friday{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #000;
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 15px;
+    font-weight: bold;
+    color: red;
+
 }

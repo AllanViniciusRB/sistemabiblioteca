@@ -114,8 +114,8 @@
             <div class="bloco-rodape">
                 <h2>Rede Sociais</h2>
                 <ul>
-                    <li>Ícone Facebook</li>
-                    <li>Ícone Instagram</li>
+                    <li><i class="fa-brands fa-square-facebook"></i></li>
+                    <li><i class="fa-brands fa-instagram"></i></li>
                 </ul>
             </div>
 

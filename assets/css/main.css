@@ -125,27 +125,49 @@ body{
     width: calc(25% - 30px);
     position: relative;
 }
-.legenda{
+.card-livro span{
     position: absolute;
     top: 15px;
     left: 15px;
-    background-color: #d9c505;
     display: inline-block;
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 15px;
     font-weight: bold;
 }
+.legenda{
+    background-color: #d9c505;
+}
 .black-friday{
-    position: absolute;
-    top: 15px;
-    left: 15px;
     background-color: #000;
-    display: inline-block;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 15px;
-    font-weight: bold;
-    color: red;
+    color: #ffffff
+}
 
+#rodape{
+    border: 2px solid #ccc;
+    margin-top: 50px;
+    padding-top: 30px;
+}
+#rodape .container{
+    display: flex;
+
+}
+.bloco-rodape{
+    flex-grow: 1;
+}
+.bloco-rodape ul{
+    list-style: none;
+}
+.bloco-rodape ul li{
+    margin: 5px;
+}
+.bloco-rodape a{
+    text-decoration: none;
+    color: var(--texto);
+    font-weight: 500;
+}
+#copyright{
+    background-color: #ccc;
+    text-align: center;
+    padding: 5px;
 }
